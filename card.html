@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quote Cards for Ferrero</title>
+
+  <!-- Stardom Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Stardom&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Stardom', cursive;
+    }
+
+    body {
+      background: radial-gradient(circle at center, #2a2a40, #1b1b2f);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #eee;
+      position: relative;
+    }
+
+    h1 {
+      position: absolute;
+      top: 30px;
+      font-size: 1.5rem;
+      color: #fff;
+      text-align: center;
+    }
+
+    .quote-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+      padding: 2rem;
+      margin: 1rem;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 1rem;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+      font-size: 1.2rem;
+      text-align: center;
+      transition: opacity 0.5s ease;
+    }
+
+    .custom-card {
+      display: none;
+      position: absolute;
+      bottom: 80px;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 1.5rem;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 1rem;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    .toggle-btn {
+      position: absolute;
+      bottom: 20px;
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      border-radius: 0.5rem;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Made for Achal 🎀 , for her hard times 🌷 </h2>
+
+  <div id="quote" class="quote-card"></div>
+
+  <div class="custom-card" id="customCard">
+    You are stronger than your struggles,
+     Sometimes i think ki like what type of shit are you, 
+     man this confuses me and i just want to annoy you in everyway possible XD.
+     But seriously you are Much better Soul i have ever met,That makes you very unique 
+     , also bc mala kantalla allai evda coding karun but yeah worth the person -_- .
+     This card is a warm hug in words.
+  </div>
+
+  <button class="toggle-btn" onclick="toggleCard()">View Card</button>
+
+  <audio id="bg-music" loop>
+    <source src="music.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script>
+    const quotes = [
+      "Your worth is what i cant describe. So be grateful nigga",
+      "You’ve survived most of your worst days.I am proud of you ;)",
+      "You are worthy of love.",
+      "Even if you dont realise, you matter a lot to me , so just be you ♥",
+      "It’s okay to not to tell things and suffer alone, but give it a try to your therapist too -_-",
+      "You are doing better than you think. Dealing with all sorts of things not everyone is able to do this",
+      "I hate when you dont share things w me, you suffer from, its okay if want to keep it up to you",
+      "Made this App within 3 hrs, Gpay me 1000$ 0_0"
+    ];
+
+    let current = 0;
+    const quoteEl = document.getElementById("quote");
+    const customCard = document.getElementById("customCard");
+
+    function showQuote(index) {
+      quoteEl.style.opacity = 0;
+      setTimeout(() => {
+        quoteEl.innerText = quotes[index];
+        quoteEl.style.opacity = 1;
+      }, 300);
+    }
+
+    function nextQuote() {
+      current = (current + 1) % quotes.length;
+      showQuote(current);
+    }
+
+    function prevQuote() {
+      current = (current - 1 + quotes.length) % quotes.length;
+      showQuote(current);
+    }
+
+    function toggleCard() {
+      customCard.style.display = customCard.style.display === "block" ? "none" : "block";
+    }
+
+    // Show initial quote
+    showQuote(current);
+
+    // Play audio on user click
+    document.addEventListener('click', () => {
+      const audio = document.getElementById('bg-music');
+      if (audio.paused) {
+        audio.play().catch(err => console.log("Autoplay error:", err));
+      }
+    }, { once: true });
+
+    // Swipe gestures
+    let startX = 0;
+
+    document.addEventListener("touchstart", (e) => {
+      startX = e.touches[0].clientX;
+    });
+
+    document.addEventListener("touchend", (e) => {
+      const endX = e.changedTouches[0].clientX;
+      if (startX - endX > 50) {
+        nextQuote();
+      } else if (endX - startX > 50) {
+        prevQuote();
+      }
+    });
+  </script>
+
+</body>
+</html>
